@@ -31,12 +31,14 @@ def ADD_PROJECT(request):
     if request.method =="POST":
         province_id = request.POST.get('province')
         district_id = request.POST.get('district')
-        local_id = request.POST.get('local')
-        print("The local id is " + local_id)
+        local_id  = request.POST.get('local')
         project = request.POST.get('project')
         province = Province.objects.get(id=province_id)
         district = District.objects.get(id=district_id)
-        local = Local.objects.get(id=local_id)
+        local = Local.objects.get(id = local_id)
+        
+
+   
     
         project = Project(
             name = project,
