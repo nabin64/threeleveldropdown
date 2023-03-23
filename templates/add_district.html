@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>Bootstrap Example</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   </head>
+   <body>
+      <div class="jumbotron jumbotron-fluid text-center">
+         <h2>My First Bootstrap Page</h2>
+      </div>
+      <div class="container">
+      <div class="row">
+         <div class="col-sm-12 text-center">
+            <div class="card">
+          
+
+               <div class="card-body">
+                  <form action="{% url 'add_project' %}" method="post" id="form-province" data-district-url ="{% url 'ajax_load_district' %}" data-local-url="{% url 'ajax_load_local'%}" >
+                     {% csrf_token %}
+                    <div class="row">
+                        <div class="form-title">
+                            <h2> Dependent Drop Down in Django </h2>
+                         </div>
+                        <div class="col-md-3">
+                           
+                           <div class="form-group">
+                              <labe>Province</label>
+                              <select name="province" id="id_province" class="form-control">
+                    
+                              <option value="">Select Province </option>
+                              {% for i in province %}
+                              <option value="{{i.id}}">{{i.name}}</option>
+                              {% endfor %}
+                          
+                              <select>
+                           </div>
+                        </div>
+                        <div class="col-md-3">
+                           
+                            <div class="form-group">
+                               <labe>District</label>
+                               <select name="district" id="id_district" class="form-control">
+                               <option>Select District </option>
+                               <option value=""></option>
+                               <select>
+                            </div>
+                         </div>
+                         <div class="col-md-3">
+                            <div class="form-group">
+                               <labe>Local</label>
+                               <select name="local" id="id_local" class="form-control">
+                               <option> Select Local</option>
+                               <option value=""></option>
+                               <select>
+                            </div>
+                         </div>
+                         <div class="col-md-3">
+                            <div class="form-group">
+                               <labe>Project</label>
+                               <input type="text" class="form-control" name ="project" >
+                            </div>
+                         </div>
+                         <div class="col-12">
+                            <button class="btn btn-success" type="submit">Save</button>
+                         </div>
+                  </form>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script>
+      
+        $("#id_province").change(function(){
+            const url = $("#form-province").attr("data-district-url");
+
+            const provinceid = $(this).val();
+  
+            $.ajax({
+                url:url,
+                data:{
+                    "provinceid":provinceid
+                },
+                success: function(data){
+                    $("#id_district").html(data);
+                }
+            });
+        });
+
+        $("#id_district").change(function(){
+            const url = $("#form-province").attr("data-local-url");
+            const districtid = $(this).val();
+            $.ajax({
+                url:url,
+                data:{
+                    "districtid":districtid
+                },
+                success: function(data){
+                    $("#id_local").html(data);
+                }
+            });
+
+        });
+
+
+
+
+      </script>
+   </body>
+</html>
